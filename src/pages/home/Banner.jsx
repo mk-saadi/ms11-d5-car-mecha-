@@ -28,8 +28,8 @@ const Banner = () => {
                             suffered alteration in some form or another
                         </p>
                         <div className="grid grid-cols-1 sm:grid-cols-2 max-w-[10rem] sm:max-w-[19rem]  gap-2">
-                            <button className="btn btn-warning">Discover More</button>
-                            <button className="btn btn-outline ">Latest Project</button>
+                            <button className="rounded-sm btn btn-warning">Discover More</button>
+                            <button className="rounded-sm btn btn-outline ">Latest Project</button>
                         </div>
                     </div>
                 </div>

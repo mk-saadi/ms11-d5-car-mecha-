@@ -1,7 +1,11 @@
 import { Link } from "react-router-dom";
 import logo from "../../assets/react.svg";
+import { useContext } from "react";
+import { AuthContext } from "../../provider/AuthProvider";
+import { toast } from "react-hot-toast";
 
 const NavBar = () => {
+    const { user, logOut } = useContext(AuthContext);
     const navItems = (
         <>
             <li>
@@ -12,6 +16,22 @@ const NavBar = () => {
             </li>
         </>
     );
+
+    const handleLogOut = () => {
+        logOut()
+            .then(() => {})
+            .catch((error) => {
+                toast.error(error.message, {
+                    position: "top-center",
+                    autoClose: 4000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                });
+            });
+    };
 
     return (
         <div className="navbar h-28">
@@ -38,7 +58,7 @@ const NavBar = () => {
                     </label>
                     <ul
                         tabIndex={0}
-                        className="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52"
+                        className="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-sm w-52"
                     >
                         {navItems}
                     </ul>
@@ -58,7 +78,31 @@ const NavBar = () => {
                 <ul className="menu menu-horizontal px-1">{navItems}</ul>
             </div>
             <div className="navbar-end">
-                <button className="btn btn-outline btn-warning">Appointment</button>
+                {user?.email ? (
+                    <div className="flex gap-2">
+                        <p className="text-warning">{user.email}</p>
+                        <img
+                            className="h-12 w-12 rounded-3xl"
+                            src={user.photoURL}
+                            alt=""
+                        />
+                        <button
+                            className="btn btn-outline btn-warning rounded-sm p-2 sm:px-5"
+                            onClick={handleLogOut}
+                        >
+                            Log Out
+                        </button>
+                        <Link to="/bookings">
+                            <button className="btn btn-outline btn-warning rounded-sm p-2 sm:px-5">
+                                My Bookings
+                            </button>
+                        </Link>
+                    </div>
+                ) : (
+                    <Link to="/login">
+                        <button className="btn btn-outline btn-warning rounded-sm">Login</button>
+                    </Link>
+                )}
             </div>
         </div>
     );
